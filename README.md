@@ -11,10 +11,10 @@ rooms in guest house in advance for their parents and relatives. This
 website provides information about rooms availability, checkin, checkout
 details etc.
 As of now there is no online facility for advance booking of Guest house
-rooms in ONGC. So, we are developing a website which allows students to
+rooms in ONGC. So, we are developing a website which allows employees to
 book rooms in advance directly through website.
 The system allows only ONGC Employees to book the rooms in advance. This
-will be done by confirming the students using the Organization email address
+will be done by confirming the employees using the Organization email address
 (​ xxxx@ongc.co.in​ ) and other required credentials.
 ### Frameworks
 ● Database: MySQL
@@ -32,7 +32,7 @@ guest house in ONGC across India. There are in total thrirteen guest houses pres
 present system of booking involves physical presence of employees to book rooms and
 take permission from Registar and present the copy of permission to staff of the guest
 house. This causes burden on employees. In order to solve this issue we come up with a
-website which allows students to book rooms online by authenticating that they belong
+website which allows employees to book rooms online by authenticating that they belong
 to NITK via xxxx@ongc.co.in account.
 
 
