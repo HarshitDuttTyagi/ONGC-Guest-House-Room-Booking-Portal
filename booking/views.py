@@ -113,7 +113,7 @@ def book_room_verify(request, g, t, rtype, count):
                     newtransaction = book_room(g, t, request)
                     if newtransaction is not False:
 
-                        mail_subject = 'Booking Confirmation at NITK GuestHouse.'
+                        mail_subject = 'Booking Confirmation at ONGC GuestHouse.'
                         message = render_to_string('booking/booking_confirmation.html', {
                             'user': request.user,
                             'newtransaction': newtransaction,

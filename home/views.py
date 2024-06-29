@@ -17,7 +17,7 @@ from booking.models import ExtendedUser
 
 
 def sendMail(to_email, subject, content):
-    sg = sendgrid.SendGridAPIClient(apikey='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')
+    sg = sendgrid.SendGridAPIClient(apikey='**')
     from_email = Email("harshitdutttyagi@gmail.com")
     print(to_email)
     to_email = Email(to_email)
