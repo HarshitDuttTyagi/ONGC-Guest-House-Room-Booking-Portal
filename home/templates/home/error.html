@@ -1,0 +1,17 @@
+{% extends 'home/base.html' %}
+
+{% block body %}
+     <br>
+    <br>
+    <br>
+    <br>
+
+    {% if messages %}
+        {% for message in messages %}
+
+            <h3 style="color: red; text-align: center;">{{ message }}</h3>
+
+        {% endfor %}
+    {% endif %}
+
+{% endblock %}

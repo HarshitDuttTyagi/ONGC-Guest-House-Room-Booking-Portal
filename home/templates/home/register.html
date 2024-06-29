@@ -1,0 +1,73 @@
+{% extends 'home/base.html' %}
+
+{% block body %}
+
+    {% if messages %}
+        {% for message in messages %}
+
+            <div class="alert alert-info">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
+                <strong style="text-align: center">{{ message }}</strong>
+
+
+
+            </div>
+
+        {% endfor %}
+    {% endif %}
+        <br>
+    <br>
+    <br>
+
+ <div class="banner-top" style="background-color: #0f2453; margin-top: 50px">
+				<h2>Please fill the details to continue.</h2>
+                {% load widget_tweaks %}
+				<div class="banner-bottom">
+					<form  name="register" method="post" action="{% url 'register' %}">{% csrf_token %}
+
+
+
+
+                            <div class="bnr-one">
+                                <div class="bnr-left">
+                                    <p> Organisation Email</p>
+                                </div>
+                                <div class="bnr-right time-pic" >
+                                    {% render_field form.email placeholder="email" class="form-control" %}
+                                </div>
+                                <div class="clearfix"></div>
+					        </div>
+
+                             <div class="bnr-one">
+                                <div class="bnr-left">
+                                    <p> Password</p>
+                                </div>
+                                <div class="bnr-right time-pic" >
+                                    {% render_field form.password1 placeholder="password1" class="form-control" %}
+                                </div>
+                                <div class="clearfix"></div>
+					        </div>
+
+
+                             <div class="bnr-one">
+                                <div class="bnr-left">
+                                    <p> Verify Passowrd</p>
+                                </div>
+                                <div class="bnr-right time-pic" >
+                                    {% render_field form.password2 placeholder="password2" class="form-control" %}
+                                </div>
+                                <div class="clearfix"></div>
+					        </div>
+
+
+
+					<div class="bnr-btn" style="width: 50%; margin-top: 100px;">
+
+							<input type="submit" value="Register">
+
+					</div>
+                    </form>
+				</div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,305 @@
+{% extends 'manager/base.html' %}
+
+{% block body %}
+
+<style>
+.w3-light-grey,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+.field_wrapper {
+    width: 100%;
+}
+</style>
+    {% if messages %}
+        {% for message in messages %}
+
+            <div class="alert alert-info">
+                <strong style="text-align: center">{{ message }}</strong>
+
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
+            </div>
+
+        {% endfor %}
+    {% endif %}
+    <br>
+
+<body class="w3-light-grey">
+
+<!-- Page Container -->
+<div class="w3-content w3-margin-top" style="max-width:1400px;">
+
+  <!-- The Grid -->
+  <div class="w3-row-padding">
+
+    <!-- Left Column -->
+    <div class="w3-third">
+
+      <div class="w3-white w3-text-grey w3-card-4">
+        <div class="w3-display-container">
+            {% load staticfiles %}
+          <img src="{% static 'home/images/About.jpg' %}" style="width:100%" alt="Avatar">
+          <div class="w3-display-bottomleft w3-container w3-text-black">
+            <h2 style="color: white">ONGC</h2>
+          </div>
+        </div>
+        <div class="w3-container">
+           <br>
+          <p><i class="fa fa-home fa-fw w3-margin-right w3-large w3-text-teal"></i>56/3,Sewak Ashram Road,Dehradun, India</p> <br>
+          <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>ex@mail.com</p> <br>
+          <p><i class="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal"></i>1224435534</p>
+          <hr>
+
+          <p class="w3-large"><b><i class="fas fa-list-ul fa-fw w3-margin-right w3-text-teal"></i><a href="{% url 'manager' %}">Recent Bookings</a></b></p>
+
+          <br>
+
+            {%  for g in guesthouse %}
+
+                <p class="w3-large" style="margin-left: 10%;"><b><i class="fas fa-circle fa-fw w3-margin-right w3-text-teal"></i><a href="{% url 'manager1' g.id%}">{{ g.name }}</a></b></p>
+
+            <br>
+
+            {% endfor %}
+
+
+
+
+
+            <p class="w3-large"><b><i class="fas fa-chart-line fa-fw w3-margin-right w3-text-teal"></i><a href="{% url 'stats' %}">Room Booking Statistics</a></b></p>
+
+          <br>
+
+            <p class="w3-large"><b><i class="fas fa-user-circle fa-fw w3-margin-right w3-text-teal"></i><a href="{% url 'manager-account' %}">Manager Account</a></b></p>
+
+          <br>
+
+
+
+
+
+
+        </div>
+      </div><br>
+
+    <!-- End Left Column -->
+    </div>
+
+    <!-- Right Column -->
+    <div class="w3-twothird">
+
+      <div class="w3-container w3-card w3-white w3-margin-bottom">
+        <h2 class="w3-text-grey w3-padding-16"><i class="fas fa-list-ul fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Bookings Details</h2>
+
+
+
+          {% for t in transactions %}
+
+              {% if t.status is False %}
+
+
+
+
+                    <button class="btn btn-lg btn-danger" style="width: 100%;"><i class="glyphicon glyphicon-"></i> This Booking has been Cancelled</button>
+
+
+              {% endif %}
+
+              <div class="w3-container">
+                  <h6 class="w3-text-teal" ><b >Guest House</b></h6>
+                  <h5><b >{{ t.guesthouse }}</b></h5>
+                  <h6 class="w3-text-teal" ><b >Number of Rooms Booked</b></h6>
+                  <h5><b >{{ t.no_rooms}} Room/s</b></h5>
+                  <h6 class="w3-text-teal" ><b > Rooms Booked By</b></h6>
+                  <h5><b >{{ t.user_booked.first_name}} {{ t.user_booked.last_name}}</b></h5>
+                  <h5><b >{{ t.user_booked.email}}</b></h5>
+                  <h6 class="w3-text-teal" ><b >Booking Period</b></h6>
+                  <h6 ><i class="fa fa-calendar fa-fw w3-margin-right"></i>{{ t.start_date }} - {{ t.end_date }}</h6>
+                   <h6 class="w3-text-teal" ><b >Date of Booking</b></h6>
+                  <h6 ><i class="fa fa-calendar fa-fw w3-margin-right"></i>{{ t.date_book }}</h6>
+                  <h6 class="w3-text-teal">Guest Details</h6>
+                    <h5><b >Room/s is/are booked for {{ t.no_people }} guest/s.</b></h5>
+                      <table style="width:100%">
+                      <caption></caption>
+                      <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Phone Number</th>
+                        <th>Email Address</th>
+                        <th></th>
+                      </tr>
+                          {% for guest in guests %}
+                              <tr>
+                        <td>{{ guest.first_name }} </td>
+                        <td>{{ guest.last_name }} </td>
+                        <td> {{ guest.phone }}</td>
+                        <td>{{ guest.email }}</td>
+                        <td><span class="w3-text-teal" ><a href="{% url 'delete-guest' t.id guest.id %}">  <i class="fas fa-user-minus"></i></a></span></td>
+                      </tr>
+
+                      {% endfor %}
+
+                    </table>
+
+{% if t.status is True %}
+                   <br><span class="w3-text-teal" style="margin-left: 80%"><a href="#"  data-toggle="modal" data-target="#myModal"><b >Add Guest </b>  <i class="fas fa-plus-circle"></i></a></span>
+{% endif %}
+
+
+              <h6 class="w3-text-teal" ><b >Room Details</b></h6>
+
+              <table style="width:100%">
+                      <caption></caption>
+                      <tr>
+                        <th>Room Number</th>
+                        <th>Room Type</th>
+                        <th></th>
+                      </tr>
+                          {% for room in t.rooms_allocated.all %}
+                              <tr>
+                        <td>{{ room.room_no }} </td>
+                        <td>{{ room.room_type }} </td>
+
+                        <td><span class="w3-text-teal" ><a href="{% url 'manager-remove' t.id room.id%}">Remove   <i class="fas fa-minus-circle"></i></a></span></td>
+                      </tr>
+
+                      {% endfor %}
+
+                    </table>
+              {% if t.status is True %}
+              <br><span class="w3-text-teal" style="margin-left: 80%"><a href="{% url 'manager-add' t.id %}"><b >Add Room </b>  <i class="fas fa-plus-circle"></i></a></span>
+{% endif %}
+                  <h6 class="w3-text-teal" ><b >Payment Details</b></h6>
+
+              {% if t.status is True %}
+
+                  <br><h6 class="w3-text-teal" ><b >Cancel This Booking</b></h6>
+
+                    <form method="get" action="{% url 'manager-cancel' t.id%}">{% csrf_token %}
+                    <br><button class="btn btn-lg btn-danger" type="submit" style="margin-left: 40%"><i class="glyphicon glyphicon-remove-sign"></i> Cancel Booking</button>
+                        </form>
+
+              {% endif %}
+
+
+                  <hr>
+              </div>
+
+              <!-- //Modal1 -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+						<!-- Modal1 -->
+							<div class="modal-dialog">
+							<!-- Modal content-->
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">&times;</button>
+										<h4><span>ONGC Guest House Room Booking Portal</span></h4>
+										<h6>Enter Guest Details</h6>
+
+                                    {% load widget_tweaks %}
+                                   <form class="form" action="{% url 'add_guest' t.id%}" method="post" id="registrationForm" enctype="multipart/form-data">{% csrf_token %}
+
+                                                    <div class="form-group">
+
+
+                                                              <br><label for="first_name"><h4>First name</h4></label>
+                                                              {% render_field form.first_name placeholder="old password" class="form-control" %}
+
+                                                      </div>
+                                                      <div class="form-group">
+
+
+                                                            <br><label for="last_name"><h4>Last name</h4></label>
+                                                              {% render_field form.last_name placeholder="old password" class="form-control" %}
+
+                                                      </div>
+
+
+
+                                                      <div class="form-group">
+
+                                                             <br><label for="mobile"><h4>Mobile</h4></label>
+                                                              {% render_field form.phone placeholder="old password" class="form-control" %}
+
+                                                      </div>
+                                                      <div class="form-group">
+
+
+                                                              <br><label for="email"><h4>Email</h4></label>
+                                                              {% render_field form.email placeholder="old password" class="form-control" %}
+
+                                                      </div>
+
+                                                        <div class="form-group" style="margin-left: 5%">
+
+                                                             <br>
+                                                        <button class="btn btn-lg btn-success" type="submit" style="background-color: #0f2453; "><i class="glyphicon glyphicon-ok-sign"></i>Save</button>
+                                                        <button class="btn btn-lg btn-success" type="reset" style="background-color: #0f2453"><i class="glyphicon glyphicon-repeat"></i> Reset</button>
+
+                                                </div>
+
+
+                                                    </form>
+</div>
+								</div>
+							</div>
+						</div>
+<!-- //Modal1 -->
+
+
+          {%  endfor %}
+
+
+
+
+
+
+{#        <div class="w3-container">#}
+{#          <h5 class="w3-opacity"><b>Web Developer / something.com</b></h5>#}
+{#          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Mar 2012 - Dec 2014</h6>#}
+{#          <p>Consectetur adipisicing elit. Praesentium magnam consectetur vel in deserunt aspernatur est reprehenderit sunt hic. Nulla tempora soluta ea et odio, unde doloremque repellendus iure, iste.</p>#}
+{#          <hr>#}
+{#        </div>#}
+{#            <div class="w3-container">#}
+{#          <h5 class="w3-opacity"><b>Web Developer / something.com</b></h5>#}
+{#          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Mar 2012 - Dec 2014</h6>#}
+{#          <p>Consectetur adipisicing elit. Praesentium magnam consectetur vel in deserunt aspernatur est reprehenderit sunt hic. Nulla tempora soluta ea et odio, unde doloremque repellendus iure, iste.</p>#}
+{#          <hr>#}
+{#        </div>#}
+{#            <div class="w3-container">#}
+{#          <h5 class="w3-opacity"><b>Web Developer / something.com</b></h5>#}
+{#          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Mar 2012 - Dec 2014</h6>#}
+{#          <p>Consectetur adipisicing elit. Praesentium magnam consectetur vel in deserunt aspernatur est reprehenderit sunt hic. Nulla tempora soluta ea et odio, unde doloremque repellendus iure, iste.</p>#}
+{#          <hr>#}
+{#        </div>#}
+{#        <div class="w3-container">#}
+{#          <h5 class="w3-opacity"><b>Graphic Designer / designsomething.com</b></h5>#}
+{#          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Jun 2010 - Mar 2012</h6>#}
+{#          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. </p><br>#}
+{#        </div>#}
+{#      </div>#}
+
+
+
+
+
+  <!-- End Grid -->
+  </div>
+
+  <!-- End Page Container -->
+</div>
+
+
+{% endblock %}

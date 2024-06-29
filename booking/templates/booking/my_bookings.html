@@ -1,0 +1,197 @@
+{% extends 'booking/base.html' %}
+
+{% block body %}
+
+<style>
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;}
+
+    . list{
+        width: 100%;
+        height: 50%;
+    }
+.collapsible {
+    background-color: #ffce14;
+    color: black;
+    cursor: pointer;
+    padding: 1%;
+    width: 20%;
+    border: none;
+    text-align: center;
+    outline: none;
+}
+
+.book {
+    background-color: #ffce14;
+    color: black;
+    cursor: pointer;
+    padding: 12px;
+    width: 15%;
+    border: none;
+    text-align: center;
+    outline: none;
+}
+
+.active, .collapsible:hover {
+    background-color: #ffce14;
+}
+
+.price-gd-top1 {
+    text-align: center;
+    position: relative;
+}
+.price-gd-top1 h4 {
+    font-size: 1.5em;
+    color: #fff;
+    padding: 0.4em 1em;
+    background: #0f2453;
+    font-weight: 300;
+    position: absolute;
+    top: 0em;
+    right: 0em;
+}
+
+.content {
+    padding: 2%;
+    display: none;
+    width: 100%;
+    overflow: hidden;
+    background-color: white;}
+
+
+</style>
+{% if messages %}
+        {% for message in messages %}
+
+            <div class="alert alert-info">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
+                <strong style="text-align: center">{{ message }}</strong>
+
+
+            </div>
+
+        {% endfor %}
+    {% endif %}
+
+
+
+<div class="plans-section" id="rooms">
+				 <div class="container">
+				 <h3 class="title-w3-agileits title-black-wthree">Your Bookings</h3>
+						<div class="priceing-table-main">
+
+
+
+                            {% for t in bookings %}
+                                <div class="list">
+                                    <div class="price-block">
+                                        <div class="price-gd-top1 " >
+
+                                            <h4 {% if t.T.status is False %} style="background-color: red;"{% endif %}>{{ t.T.start_date }} {% if t.T.status is False %}Cancelled {% endif %}</h4>
+                                        </div>
+                                        <div class="price-gd-bottom">
+                                            <br>
+                                            <div class="price-selet">
+                                                <h3><span>#</span> {{ t.N }} Room/s Booked in {{ t.G }}</h3>
+                                                <button class="collapsible">Details</button>
+                                                <div class="content"><br><br><br>
+                                                <h3>Transaction Number : {{ t.T.transaction_number }}</h3>
+                                                  <table>
+                                                      <tr style="background-color: #0f2453">
+                                                        <th style="color: white">Rooms Booked </th>
+                                                        <th style="color: white"></th>
+                                                        <th style="color: white; text-align: center;">Guest Details</th>
+                                                        <th style="color: white"></th>
+                                                      </tr>
+                                                  <tr style="background-color: #0f2453">
+                                                        <th style="color: white"></th>
+                                                        <th style="color: white">Name</th>
+                                                        <th style="color: white">Phone Number</th>
+                                                        <th style="color: white">Email</th>
+                                                      </tr>
+                                                      {% for d, r in t.Z %}
+                                                      <tr>
+                                                        <td>{{ r.room_no }} {{ r.room_type }}</td>
+                                                        <td>{{ d.first_name }} {{ d.last_name }}</td>
+                                                        <td>{{ d.phone }} </td>
+                                                        <td>{{ d.email }} </td>
+                                                      </tr>
+                                                          {% endfor %}
+                                                  </table>
+                                                {% if t.T.status is True %}
+                                                <form method="get" action="{% url 'cancel' t.T.id %}">{% csrf_token %}
+                                                    <br><button class="btn  btn-danger" type="submit" style="margin-left: 85%"><i class="glyphicon glyphicon-remove-sign"></i> Cancel Booking</button>
+                                                 </form>
+                                                {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div><br><br><br>
+                            {% endfor %}
+
+                        <div class="w3-container">
+                {% if t.has_other_pages %}
+                  <ul class="pagination">
+                    {% if t.has_previous %}
+                      <li><a href="?page={{ t.previous_page_number }}">&laquo;</a></li>
+                    {% else %}
+                      <li class="disabled"><span>&laquo;</span></li>
+                    {% endif %}
+                    {% for i in t.paginator.page_range %}
+                      {% if t.number == i %}
+                        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                      {% else %}
+                        <li><a href="?page={{ i }}">{{ i }}</a></li>
+                      {% endif %}
+                    {% endfor %}
+                    {% if t.has_next %}
+                      <li><a href="?page={{ t.next_page_number }}">&raquo;</a></li>
+                    {% else %}
+                      <li class="disabled"><span>&raquo;</span></li>
+                    {% endif %}
+                  </ul>
+                {% endif %}
+                  <hr>
+              </div>
+
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+	</div>
+
+
+
+    <script>
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+  });
+}
+</script>
+
+{% endblock %}

@@ -1,0 +1,13 @@
+{% autoescape off %}
+Hi {{ user.email }},
+Your Room Booking at ONGC Guest House Successfully Completed.
+    Following are the Booking Details.
+    Booking Number : {{ newtransaction.transaction_number }}
+    Booking Date : {{ newtransaction.date_book }}
+    Booking Period : From {{ newtransaction.start_date }} to {{  newtransaction.end_date  }}
+    Guest House : {{ newtransaction.guesthouse  }}
+    Rooms Booked :
+    {% for r in rooms %}
+        Room Number : {{ r.room_no }}
+    {% endfor %}
+{% endautoescape %}

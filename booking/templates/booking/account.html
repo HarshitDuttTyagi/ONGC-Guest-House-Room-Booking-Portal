@@ -1,0 +1,159 @@
+{% extends 'booking/base.html' %}
+
+{% block body %}
+
+
+
+
+    {% if messages %}
+        {% for message in messages %}
+
+            <div class="alert alert-info">
+                <strong style="text-align: center">{{ message }}</strong>
+
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
+            </div>
+
+        {% endfor %}
+    {% endif %}
+<br><br>
+<br><br>
+<br><br>
+
+    <div class="container bootstrap snippet" >
+
+    <div class="row">
+
+    <form class="form" action="{% url 'account'%}" method="post" id="registrationForm" enctype="multipart/form-data">{% csrf_token %}
+
+        <div class="col-sm-3"><!--left col-->
+
+
+            <div class="text-center" >
+            <div style="height: 50%;">
+            {% load staticfiles %}
+                <img src="{%  static 'home/images/Harshit.jpg' %}" class="avatar img-circle img-thumbnail" alt="avatar" >
+                  <br><br>
+                <h6>Upload a different photo...</h6>
+                   <br><br>
+                {% for field in image_form %}
+                    {{ field }}
+                {% endfor %}
+
+            </div>
+            </div></hr><br>
+        </div><!--/col-3-->
+
+
+
+    	<div class="col-sm-9">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#home">Profile</a></li>
+                <li><a data-toggle="tab" href="#messages"> Change Password</a></li>
+            </ul>
+
+
+            <div class="tab-content" >
+                <div class="tab-pane active" id="home">
+                <hr>
+
+                      <div class="form-group">
+
+                          <div class="col-xs-6">
+                              <br><label for="first_name"><h4>First name</h4></label>
+                              <input type="text" class="form-control" name="first_name" id="first_name" placeholder="first name" title="enter your first name if any." value="{{ user.first_name }}">
+                          </div>
+                      </div>
+                      <div class="form-group">
+
+                          <div class="col-xs-6">
+                            <br><label for="last_name"><h4>Last name</h4></label>
+                              <input type="text" class="form-control" name="last_name" id="last_name" placeholder="last name" title="enter your last name if any." value="{{ user.last_name }}">
+                          </div>
+                      </div>
+
+
+
+                      <div class="form-group">
+                          <div class="col-xs-6">
+                             <br><label for="mobile"><h4>Mobile</h4></label>
+                              <input type="text" class="form-control" name="mobile" id="mobile" placeholder="enter mobile number" title="enter your mobile number if any." value="{{ extended_user.mobile }}">
+                          </div>
+                      </div>
+                      <div class="form-group">
+
+                          <div class="col-xs-6">
+                              <br><label for="email"><h4>Email</h4></label>
+                              <input type="email" class="form-control" name="email" id="email" placeholder="you@email.com" title="enter your email." value="{{ user.email }}">
+                          </div>
+                      </div>
+
+                      <div class="form-group">
+                           <div class="col-xs-12">
+                                <br>
+                              	<button class="btn btn-lg btn-success" type="submit" style="background-color: #0f2453; "><i class="glyphicon glyphicon-ok-sign"></i>Save</button>
+                               	<button class="btn btn-lg btn-success" type="reset" style="background-color: #0f2453"><i class="glyphicon glyphicon-repeat"></i> Reset</button>
+                            </div>
+                      </div>
+
+
+              <hr>
+
+             </div><!--/tab-pane-->
+
+            </form>
+             <div class="tab-pane" id="messages">
+
+               <h2></h2>
+
+               <hr>{% load widget_tweaks %}
+                  <form class="form" action="{% url 'psw-reset'  %}" method="post" id="registrationForm">{% csrf_token %}
+
+                      <div class="form-group">
+
+                          <div class="col-xs-6">
+                              <br><label for="password"><h4> Old Password</h4></label>
+                               {% render_field password_form.old_password placeholder="old password" class="form-control" %}
+                          </div>
+                      </div>
+
+
+                          <div class="form-group">
+
+                          <div class="col-xs-6">
+                              <br><label for="password"><h4> New Password</h4></label>
+                               {% render_field password_form.new_password1 placeholder="old password" class="form-control" %}
+                          </div>
+                      </div>
+
+
+                          <div class="form-group">
+
+                          <div class="col-xs-6">
+                              <br><label for="password"><h4> Verify New Password</h4></label>
+                               {% render_field password_form.new_password2 placeholder="old password" class="form-control" %}
+                          </div>
+                      </div>
+
+
+                      <div class="form-group">
+                           <div class="col-xs-12">
+                                <br>
+                              	<button class="btn btn-lg btn-success" type="submit" style="background-color: #0f2453"><i class="glyphicon glyphicon-ok-sign"></i>Save</button>
+                               	<button class="btn btn-lg btn-success" type="reset" style="background-color: #0f2453"><i class="glyphicon glyphicon-repeat"></i> Reset</button>
+                            </div>
+                      </div>
+
+              	</form>
+
+             </div><!--/tab-pane-->
+
+
+              </div><!--/tab-pane-->
+          </div><!--/tab-content-->
+
+        </div><!--/col-9-->
+    </div><!--/row-->
+
+
+{% endblock %}
